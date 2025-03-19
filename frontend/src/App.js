@@ -19,7 +19,7 @@ function App() {
         </a>
       </header>
       <body>
-        <p>Medical database stuff...</p>
+        <p>Medical database?...</p>
       </body>
     </div>
   );
