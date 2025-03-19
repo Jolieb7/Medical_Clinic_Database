@@ -18,6 +18,9 @@ function App() {
           Learn React
         </a>
       </header>
+      <body>
+        <p>Medical database stuff...</p>
+      </body>
     </div>
   );
 }
