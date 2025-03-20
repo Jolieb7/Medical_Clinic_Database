@@ -1,6 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import{ Routes, Route, Navigate } from 'react-router-dom';
+import Login from './components/Logins';
 
+const App = () => {
+  return (
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />   {/* Redirect to login */}
+        <Route path="/login" element={<Login />} />
+        {/* Add more routes as needed */}
+      </Routes>
+  );
+};
+
+/*
 function App() {
   return (
     <div className="App">
@@ -18,11 +32,8 @@ function App() {
           Learn React
         </a>
       </header>
-      <body>
-        <p>Medical database?...</p>
-      </body>
     </div>
   );
 }
-
+*/
 export default App;
