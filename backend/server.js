@@ -62,12 +62,44 @@ app.post("/api/register", [
   }
 
   // store plain text password in database
-  const query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+  const query = "INSERT INTO USER_CREDENTIALS (username, email, password) VALUES (?, ?, ?)";
   db.query(query, [username, email, password], (err, result) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: "Something went wrong, regisration failed" });
     }
     res.json({ message: "User registered successfully!" });
+  });
+});
+
+//User login route
+app.post("/api/login", (req, res) => {
+  const { email, password } = req.body;
+
+  //if no username or password
+  if (!email || !password) {
+    return res.status(400).json({ error: "Invalid email or password" });
+  }
+
+  // find user with email
+  const query = "SELECT * FROM USER_CREDENTIALS WHERE email = ?";
+  db.query(query, [email], async (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: "Something went wrong, login failed" });
+    }
+
+    if (result.length === 0) {
+      return res.status(400).json({ error: "Invalid email or password" });
+    }
+    const user = result[0];
+
+    // compare password
+    if (result[0].password === user.password) {
+      const token = jwt.sign({ id: result[0].id }, JWT_SECRET);
+      res.json({ token });
+    } else {
+      res.status(400).json({ error: "Invalid email or password" });
+    }
   });
 });
