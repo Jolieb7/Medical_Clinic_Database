@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -12,15 +12,18 @@ const Login = () => {
 
     try {
       const res = await axios.post("http://localhost:5000/api/login", {
-        email,
+        identifier: username,  // Match the backend field
         password,
       });
 
-      localStorage.setItem("token", res.data.token);  // Store the token
-      alert("Login successful!");
-      navigate("/dashboard");  // Redirect to dashboard
+      if(res.status === 200){
+        alert("Login successful!");
+        localStorage.setItem("token", res.data.token);
+        navigate("/dashboard");
+      }
+      
     } catch (error) {
-      alert("Invalid email or password");
+      alert("Invalid username or password");
     }
   };
 
@@ -29,10 +32,10 @@ const Login = () => {
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="text"   // Changed to text for username
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
         <input
@@ -48,4 +51,6 @@ const Login = () => {
   );
 };
 
-export default Login; 
+export default Login;
+
+
