@@ -7,7 +7,12 @@ const { body, validationResult } = require("express-validator");
 
 dotenv.config();
 const app = express();
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:3000",   // Allow frontend to access backend
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // MySQL Connection
@@ -27,7 +32,7 @@ db.connect((err) => {
 });
 
 // Server Listening
-const PORT = process.env.PORT || 3306;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // Secret key for JWT
@@ -70,6 +75,7 @@ app.post("/api/register", [
   });
 });
 
+
 //User login route
 app.post("/api/login", (req, res) => {
   const { identifier, password } = req.body;
@@ -80,7 +86,9 @@ app.post("/api/login", (req, res) => {
     return res.status(400).json({ error: "Invalid username or password" });
   }
 
-  // Check username only
+  
+
+  // Check username 
   const query = "SELECT * FROM USER_CREDENTIALS WHERE username = ?";
 
   db.query(query, [identifier], async (err, result) => {
@@ -90,6 +98,7 @@ app.post("/api/login", (req, res) => {
     }
 
     console.log("Query result:", result);  // Log query result
+    console.log("Result length:", result.length);
 
     if (result.length === 0) {
       console.log("No user found with username:", identifier);
@@ -101,7 +110,7 @@ app.post("/api/login", (req, res) => {
 
     if (password === user.password) {  // No hashing (plain-text comparison)
       const token = jwt.sign(
-        { user_id: user.user_id, username: user.username, role: user.role },
+        { user_id: user.user_id, employee_id: user.employee_id, username: user.username, role: user.role },
         JWT_SECRET
       );
 
@@ -110,6 +119,7 @@ app.post("/api/login", (req, res) => {
         token,
         user: {
           user_id: user.user_id,
+          employee_id: user.employee_id,
           username: user.username,
           role: user.role,
           last_login: user.last_login,
