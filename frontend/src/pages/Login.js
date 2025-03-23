@@ -24,7 +24,11 @@ const Login = () => {
       if(res.status === 200){
         alert("Login successful!");
         localStorage.setItem("token", res.data.token);
+        if (res.data.user.role === "Admin") {
+          navigate("/admin_dashboard");
+        } else {
         navigate("/dashboard");
+        }
       }
       
     } catch (error) {

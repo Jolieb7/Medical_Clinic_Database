@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 
-const dashboard = () => {
+const Dashboard = () => {
     return (
         <div style={{ maxWidth: "400px", margin: "0 auto" }}>
           <h2>Dashboard</h2>
@@ -12,4 +12,4 @@ const dashboard = () => {
       );
 }
 
-export default dashboard;
+export default Dashboard;
