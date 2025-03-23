@@ -1,0 +1,78 @@
+/* .login-container {
+    background: url('../../assets/healthcare-bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+   */
+   .login-container {
+    background: linear-gradient(rgba(56, 132, 209, 0.301), rgba(11, 91, 172, 0.8));
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .login-box {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 2rem 3rem;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 350px;
+  }
+  
+  .login-logo {
+    height: 50px;
+    margin-bottom: 1rem;
+  }
+  
+  .login-box h2 {
+    color: #004080;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+  }
+  
+  .login-box form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+  
+  .login-box form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .login-box form button:hover {
+    background-color: #005fa3;
+  }
+  
+  .register-link {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+  }
+  
+  .register-link a {
+    color: #004080;
+    text-decoration: underline;
+  }
+  
+  .error-msg {
+    color: red;
+    font-size: 0.9rem;
+  }
+  
