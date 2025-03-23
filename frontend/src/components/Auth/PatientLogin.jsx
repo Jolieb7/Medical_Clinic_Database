@@ -28,7 +28,7 @@ const PatientLogin = () => {
       localStorage.setItem('user', JSON.stringify(user));
 
       // Redirect based on role
-      if (user.role === 'patient') navigate('/patient/dashboard');
+      if (user.role === 'patient') navigate('/components/dashboard');
       else if (user.role === 'admin') navigate('/admin/dashboard');
       else if (user.role === 'doctor') navigate('/doctor/dashboard');
       else if (user.role === 'nurse') navigate('/nurse/dashboard');

@@ -15,7 +15,7 @@ const Home = () => {
       
     
     >
-     
+    
 
       <nav className="navbar">
         <div className="logo">
