@@ -236,4 +236,3 @@ exports.createDummyPatient = (req, res) => {
     });
   });
 };
-

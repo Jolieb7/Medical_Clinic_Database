@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import '../../styles/PatientLogin.css';
 import logo from '../../assets/clinic-logo.png';
 import bgImage from '../../assets/Home.png';
-
 import axios from 'axios';
 
 const PatientLogin = () => {
