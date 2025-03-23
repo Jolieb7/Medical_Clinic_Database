@@ -25,7 +25,7 @@ const Home = () => {
         <ul className="nav-links">
           <li><a href="#about">About Us</a></li>
           <li><a href="#services">Services</a></li>
-          <li><a href="/login">User Login</a></li>
+          <li><a href="/login/employee">Employee Login</a></li>
         </ul>
       </nav>
 
