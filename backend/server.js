@@ -6,7 +6,7 @@ const dotenv = require("dotenv");
 const patientRoutes = require("./routes/patientRoutes");
 const authRoutes = require("./routes/authRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
-//const adminRoutes = require("./routes/adminRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 const mysql = require("mysql2");
 
 dotenv.config();
@@ -15,7 +15,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(cors());
 
 // MySQL connection
 const db = mysql.createConnection({
@@ -36,15 +35,17 @@ db.connect((err) => {
 // Attach db to app for global access in controllers
 app.set("db", db);
 
-// Routes
-app.use("/api", authRoutes); // handles login, user & patient registration
 // Test route
 app.get("/", (req, res) => {
   res.send("Backend is up and running!");
 });
 
-// Register patient routes
-app.use("/api/patient", patientRoutes);
+// Routes
+app.use("/api", authRoutes); // handles login, user & patient registration
+app.use("/api/admin", adminRoutes); // admin routes
+app.use("/api/employee", employeeRoutes); // employee routes
+app.use("/api/patient", patientRoutes); // patient routes
+
 
 // Start the server
 const PORT = process.env.PORT || 5000;

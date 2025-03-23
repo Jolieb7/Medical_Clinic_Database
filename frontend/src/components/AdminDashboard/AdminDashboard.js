@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../../styles/AdminDashboard.css';
 import logo from '../../assets/clinic-logo.png';
 import bgImage from '../../assets/Home.png';
-import { FaSignOutAlt } from 'react-icons/fa';
+//import { FaSignOutAlt } from 'react-icons/faSignOutAlt';
 import CreateEmployeeForm from './CreateEmployeeForm';
 import AdminProfile from './AdminProfile';
 import EmployeeTable from './EmployeeTable';
@@ -33,7 +33,7 @@ const AdminDashboard = () => {
         </div>
         <ul className="nav-links">
         
-          <li><button onClick={handleLogout} className="logout-btn" title="Logout"><FaSignOutAlt /></button></li>
+          <li><button onClick={handleLogout} className="logout-btn" title="Logout">{/* <FaSignOutAlt /> */}</button></li>
         </ul>
       </nav>
 

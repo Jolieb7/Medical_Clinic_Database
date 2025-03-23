@@ -28,11 +28,11 @@ const PatientLogin = () => {
       localStorage.setItem('user', JSON.stringify(user));
 
       // Redirect based on role
-      if (user.role === 'patient') navigate('/components/dashboard');
-      else if (user.role === 'admin') navigate('/admin/dashboard');
-      else if (user.role === 'doctor') navigate('/doctor/dashboard');
-      else if (user.role === 'nurse') navigate('/nurse/dashboard');
-      else if (user.role === 'staff') navigate('/staff/dashboard');
+      if (user.role === 'Patient') navigate('/components/dashboard');
+      else if (user.role === 'Admin') navigate('/admin/dashboard');
+      else if (user.role === 'Doctor') navigate('/doctor/dashboard');
+      else if (user.role === 'Nurse') navigate('/nurse/dashboard');
+      else if (user.role === 'Staff') navigate('/staff/dashboard');
       else navigate('/');
 
     } catch (err) {
@@ -42,7 +42,7 @@ const PatientLogin = () => {
 
   return (
     <div
-  className="auth-page"
+  className="auth-page" 
   style={{
     backgroundImage: `url(${bgImage})`,
     backgroundSize: 'cover',

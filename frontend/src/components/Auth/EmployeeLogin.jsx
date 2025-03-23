@@ -21,17 +21,17 @@ const EmployeeLogin = () => {
     }
 
     try {
-      const res = await axios.post('http://localhost:5000/authRoutes/login', { username, password });
+      const res = await axios.post('http://localhost:5000/api/login', { username, password });
 
       const { token, user } = res.data;
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
 
       //Redirect based on role
-      if (user.role === 'admin') navigate('/');
-      else if (user.role === 'doctor') navigate('/doctor/dashboard');
-      else if (user.role === 'nurse') navigate('/nurse/dashboard');
-      else if (user.role === 'staff') navigate('/staff/dashboard');
+      if (user.role === 'Admin') navigate('/admin/dashboard');
+      else if (user.role === 'Doctor') navigate('/doctor/dashboard');
+      else if (user.role === 'Nurse') navigate('/nurse/dashboard');
+      else if (user.role === 'Staff') navigate('/staff/dashboard');
       else navigate('/'); // fallback
 
     } catch (err) {

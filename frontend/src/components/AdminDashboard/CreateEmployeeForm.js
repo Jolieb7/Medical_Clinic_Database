@@ -499,6 +499,7 @@ class CreateEmployeeForm extends React.Component {
               className={errors.clinic_id ? 'input-error' : ''}
             >
               <option value="">-- Select Clinic --</option>
+              <option value="1">Clinic 1</option>
               {clinics.map(clinic => (
                 <option key={clinic.clinic_id} value={clinic.clinic_id}>
                   {clinic.clinic_name}
