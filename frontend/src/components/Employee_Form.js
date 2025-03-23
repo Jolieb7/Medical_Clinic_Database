@@ -17,7 +17,11 @@ const Employee_Form = () => {
     phone: '',
     sex: '',
     dob: '',
+    education: '',
     role: '',
+    specialization: '',
+    clinic_id: '',
+    department_id: '',
     hire_date: '',
   });
 
@@ -62,6 +66,7 @@ const Employee_Form = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+    <div>
       {/* Employee Fields */}
       <input
         type="text"
@@ -80,50 +85,25 @@ const Employee_Form = () => {
         required
       />
       <input
-        type="email"
-        name="email"
-        value={employeeData.email}
-        onChange={handleEmployeeChange}
-        placeholder="Email"
-        required
-      />
-      <input
         type="text"
-        name="role"
-        value={employeeData.role}
+        name="middle_name"
+        value={employeeData.middle_name}
         onChange={handleEmployeeChange}
-        placeholder="Role"
-        required
+        placeholder="Middle Name"
       />
-      <input
-        type="date"
-        name="hire_date"
-        value={employeeData.hire_date}
-        onChange={handleEmployeeChange}
-        required
-      />
-
       {/* Address Fields */}
       <input
         type="text"
-        name="street"
-        value={employeeData.address.street}
-        onChange={handleEmployeeChange}
-        placeholder="Street"
-        required
-      />
-      <input
-        type="text"
-        name="number"
-        value={employeeData.address.number}
+        name="street_num"
+        value={employeeData.address.street_num}
         onChange={handleEmployeeChange}
         placeholder="Street Number"
         required
       />
       <input
         type="text"
-        name="name"
-        value={employeeData.address.name}
+        name="street_name"
+        value={employeeData.address.street_name}
         onChange={handleEmployeeChange}
         placeholder="Street Name"
         required
@@ -152,7 +132,93 @@ const Employee_Form = () => {
         placeholder="State"
         required
       />
-
+        {/* Employee Fields again*/}
+      <input
+        type="email"
+        name="email"
+        value={employeeData.email}
+        onChange={handleEmployeeChange}
+        placeholder="Email"
+        required
+      />
+      <input
+        type="text"
+        name="phone"
+        value={employeeData.phone}
+        onChange={handleEmployeeChange}
+        placeholder="Phone Number"
+        required
+      />
+      <select
+        type="text"
+        name="sex"
+        value={employeeData.sex}
+        onChange={handleEmployeeChange}
+        placeholder="Sex"
+        >
+        <option value="1">male</option>
+        <option value="2">female</option>
+        <option value="3">other</option>
+      </select>
+      <input
+        type="date"
+        name="dob"
+        value={employeeData.date_of_birth}
+        onChange={handleEmployeeChange}
+        placeholder="Date of Birth"
+        required
+      />
+      <input
+        type="text"
+        name="education"
+        value={employeeData.education}
+        onChange={handleEmployeeChange}
+        placeholder="Education"
+      />
+      <select
+        name="role"
+        value={employeeData.role}
+        onChange={handleEmployeeChange}
+        placeholder="Role"
+        required
+        >
+        <option value="1">Doctor</option>
+        <option value="2">Nurse</option>
+        <option value="3">Receptionist</option>
+      </select>
+      <input
+        type="text"
+        name="specialization"
+        value={employeeData.specialization}
+        onChange={handleEmployeeChange}
+        placeholder="Specialization"
+      />
+      <select
+        name="clinic_id"
+        value={employeeData.clinic_id}
+        onChange={handleEmployeeChange}
+        placeholder="clinic"
+        required
+        >
+        <option value="1">Clinic 1</option>
+        <option value="2">Clinic 2</option>
+        <option value="3">Clinic 3</option>
+      </select>
+      <input
+        type="text"
+        name="department_id"
+        value={employeeData.department_id}
+        onChange={handleEmployeeChange}
+        placeholder="department"
+      />
+      <input
+        type="date"
+        name="hire_date"
+        value={employeeData.hire_date}
+        onChange={handleEmployeeChange}
+        required
+      />
+      </div>
       <button type="submit">Add Employee</button>
     </form>
   );

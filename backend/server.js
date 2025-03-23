@@ -145,3 +145,31 @@ app.post("/api/employees", (req, res) => {
     res.json({ message: "Employee added successfully!" });
   });
 });
+
+// POST New Employee address /api/addresses
+app.post('/api/addresses', (req, res) => {
+  const { street_num, street_name, postal_code, city, state } = req.body;
+
+  const query = 'INSERT INTO addresses (street_num, street_name, postal_code, city, state) VALUES (?, ?, ?, ?, ?)';
+  db.query(query, [street_num, street_name, postal_code, city, state], (err, result) => {
+    if (err) {
+      console.error('DB Error:', err);
+      return res.status(500).json({ error: 'Failed to add address' });
+    }
+    res.status(200).json({ address_id: result.insertId });
+  });
+});
+
+// POST New Employee /api/employees
+app.post('/api/employees', (req, res) => {
+  const { first_name, last_name, middle_name, email, phone, sex, date_of_birth, education, role, specialization, clinic_id, department_id, hire_date } = req.body;
+
+  const query = 'INSERT INTO employees (first_name, last_name, middle_name, email, phone, sex, date_of_birth, education, role, specialization, clinic_id, department_id, hire_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  db.query(query, [first_name, last_name, middle_name, email, phone, sex, date_of_birth, education, role, specialization, clinic_id, department_id, hire_date], (err, result) => {
+    if (err) {
+      console.error('DB Error:', err);
+      return res.status(500).json({ error: 'Failed to add employee' });
+    }
+    res.status(200).json({ message: 'Employee added successfully' });
+  });
+});
