@@ -1,0 +1,136 @@
+/* AdminDashboard.css */
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .admin-dashboard {
+    background-color: rgba(255, 255, 255, 0.95);
+    max-width: 960px;
+    margin: 80px auto;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    background: #ffffffee;
+  }
+  
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .admin-header h2 {
+    margin: 0;
+    color: #004080;
+  }
+  
+  .logout-btn {
+    background-color: #004080;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .logout-btn:hover {
+    background-color: #003366;
+  }
+  
+  .admin-nav {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 12px;
+  }
+  
+  .admin-nav button {
+    padding: 10px 20px;
+    border: 2px solid #0077cc;
+    background-color: white;
+    color: #0077cc;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .admin-nav button:hover {
+    background-color: #0077cc;
+    color: white;
+  }
+  
+  .admin-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .admin-box h3 {
+    color: #004080;
+    margin-bottom: 10px;
+  }
+  
+  .admin-box input,
+  .admin-box select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  .admin-box button {
+    padding: 10px;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .admin-box button:hover {
+    background-color: #005fa3;
+  }
+  
+  .employee-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .employee-table th,
+  .employee-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .employee-table th {
+    background-color: #0077cc;
+    color: white;
+  }
+  
+  .employee-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .employee-table tr:hover {
+    background-color: #e6f3ff;
+  }
+  

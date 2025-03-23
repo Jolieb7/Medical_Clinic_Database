@@ -4,6 +4,7 @@ import Home from './components/Main/Home';
 import PatientLogin from './components/Auth/PatientLogin';
 import PatientRegister from './components/Auth/PatientRegister';
 import EmployeeLogin from './components/Auth/EmployeeLogin';
+import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 
 
 
@@ -16,6 +17,8 @@ function App() {
           <Route path="/login" element={<PatientLogin />} />
           <Route path="/register" element={<PatientRegister />} />
           <Route path="/login/employee" element={<EmployeeLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
         </Routes>
       </div>
     </Router>
