@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -13,7 +15,7 @@ const Login = () => {
     try {
       const res = await axios.post(
         "http://localhost:5000/api/login", {
-        identifier: username,  // Match the backend field
+        username,  // Match the backend field
         password,
       },
       { withCredentials: true }

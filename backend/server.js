@@ -4,13 +4,13 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
-
 dotenv.config();
 const app = express();
 const corsOptions = {
   origin: "http://localhost:3000",   // Allow frontend to access backend
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
 };
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -31,8 +31,8 @@ db.connect((err) => {
   console.log("Connected to MySQL as id " + db.threadId);
 });
 
-// Server Listening
-const PORT = process.env.PORT || 5000;
+// Server Listening on PORT 5000
+const PORT =  5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // Secret key for JWT
@@ -57,7 +57,7 @@ app.post("/api/register", [
   body("email").isEmail(),
   body("password").isLength({ min: 6 }),
 ], (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, password } = req.body;
 
   // Validate input
   const errors = validationResult(req);
@@ -65,8 +65,8 @@ app.post("/api/register", [
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const query = "INSERT INTO USER_CREDENTIALS (username, email, password) VALUES (?, ?, ?)";
-  db.query(query, [username, email, password], (err, result) => {
+  const query = "INSERT INTO USER_CREDENTIALS (username, password) VALUES (?, ?)";
+  db.query(query, [username, password], (err, result) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: "Registration failed" });
@@ -78,11 +78,11 @@ app.post("/api/register", [
 
 //User login route
 app.post("/api/login", (req, res) => {
-  const { identifier, password } = req.body;
+  const { username, password } = req.body;
 
-  console.log("Login attempt with:", identifier, password);  // Log input data
+  console.log("Login attempt with:", username, password);  // Log input data
 
-  if (!identifier || !password) {
+  if (!username || !password) {
     return res.status(400).json({ error: "Invalid username or password" });
   }
 
@@ -91,17 +91,16 @@ app.post("/api/login", (req, res) => {
   // Check username 
   const query = "SELECT * FROM USER_CREDENTIALS WHERE username = ?";
 
-  db.query(query, [identifier], async (err, result) => {
+  db.query(query, [username], async (err, result) => {
     if (err) {
       console.error("DB Error:", err);
       return res.status(500).json({ error: "Something went wrong, login failed" });
     }
 
     console.log("Query result:", result);  // Log query result
-    console.log("Result length:", result.length);
 
     if (result.length === 0) {
-      console.log("No user found with username:", identifier);
+      console.log("No user found with username:", username);
       return res.status(400).json({ error: "Invalid username or password" });
     }
 
@@ -127,7 +126,7 @@ app.post("/api/login", (req, res) => {
         },
       });
     } else {
-      console.log("Password mismatch for user:", identifier);
+      console.log("Password mismatch for user:", username);
       res.status(401).json({ error: "Invalid username or password" });
     }
   });
