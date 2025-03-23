@@ -59,6 +59,7 @@ exports.loginUser = (req, res) => {
     if (result.length === 0 || password !== result[0].password) {
       return res.status(401).json({ error: "Invalid username or password" });
     }
+    
 
     const user = result[0];
     const token = jwt.sign(
