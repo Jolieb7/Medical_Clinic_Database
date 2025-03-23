@@ -132,3 +132,16 @@ app.post("/api/login", (req, res) => {
   });
 });
 
+// Employee registration route
+app.post("/api/employees", (req, res) => {
+  const { first_name, last_name, email, role } = req.body;
+
+  const query = "INSERT INTO EMPLOYEES (first_name, last_name, email, role) VALUES (?, ?, ?, ?)";
+  db.query(query, [first_name, last_name, email, role], (err, result) => {
+    if (err) {
+      console.log("DB error:",err);
+      return res.status(400).json({ error: "Failed to add employee" });
+    }
+    res.json({ message: "Employee added successfully!" });
+  });
+});
