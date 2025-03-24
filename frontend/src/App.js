@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/dashboard';
 import Admin_dashboard from './pages/Admin_dashboard';
+import PatientPortalApp from './pages/PatientPortal/PatientPortalApp';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin_dashboard" element={<Admin_dashboard />} />
+        <Route path="/patient_portal" element={<PatientPortalApp />} /> {/* Add a new route for the Patient Portal */}
         {/* Add more routes as needed */}
       </Routes>
   );
