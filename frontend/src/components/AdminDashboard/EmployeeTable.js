@@ -8,7 +8,7 @@ const EmployeeTable = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/employees');
+        const res = await axios.get('http://localhost:5000/api/admin/employees');
         setEmployees(res.data);
       } catch (err) {
         console.error('Error fetching employees:', err);

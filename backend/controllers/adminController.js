@@ -56,9 +56,10 @@ exports.createEmployee = (req, res) => {
 
     // insert employee details
     const insertEmployeeQuery = `
-      INSERT INTO EMPLOYEES (first_name, last_name, middle_name, address_id, email, phone, sex, date_of_birth, education, role, specialization, clinic_id, department_id, hire_date)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
+      INSERT INTO EMPLOYEES 
+      (first_name, last_name, middle_name, address_id, email, phone, sex,
+      date_of_birth, education, role, specialization, clinic_id, department_id, hire_date)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     db.query(insertEmployeeQuery, [
       first_name,
