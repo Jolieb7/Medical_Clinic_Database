@@ -52,3 +52,46 @@ exports.deleteAppointment = async (req, res) => {
     }
 };
 
+exports.checkInPatient = async (req, res) => {
+    const { appointment_id } = req.params;
+    const check_in_time = new Date();
+    
+    try {
+        const [appointment] = await db.query("SELECT * FROM APPOINTMENTS WHERE id = ?", [appointment_id]);
+
+        if (!appointment.length) {
+            return res.status(404).json({ error: "Unable to find appointment." });
+        }
+
+        await db.query("UPDATE APPOINTMENTS SET patient_check_in_time = ? WHERE id = ?", [check_in_time, appointment_id]);
+
+        res.json({ message: "Patient checked in successfully", check_in_time });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Unable to check in patient" });
+    }
+};
+
+exports.checkOutPatient = async (req, res) => {
+    const { appointment_id } = req.params;
+    const check_out_time = new Date();
+
+    try {
+        const [appointment] = await db.query("SELECT * FROM APPOINTMENTS WHERE id = ?", [appointment_id]);
+
+        if (!appointment.length) {
+            return res.status(404).json({ error: "Unable to find appointment." });
+        }
+
+        await db.query("UPDATE APPOINTMENTS SET patient_check_out_time = ? WHERE id = ?", [check_out_time, appointment_id]);
+
+        res.json({ message: "Patient checked out successfully", check_out_time });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Unable to check out patient." });
+    }
+};
+
+
