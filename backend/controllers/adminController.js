@@ -15,7 +15,6 @@ exports.getAllEmployees = (req, res) => {
     });
   };
   
-
 // Add new employee
 exports.createEmployee = (req, res) => {
   const {
@@ -35,7 +34,7 @@ exports.createEmployee = (req, res) => {
     hire_date
   } = req.body;
 
-  // inserting address
+  // inserting address to ADDRESS table
   const insertAddressQuery = `
     INSERT INTO ADDRESS (street_num, street_name, postal_code, city, state)
     VALUES (?, ?, ?, ?, ?)

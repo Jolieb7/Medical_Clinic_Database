@@ -11,5 +11,4 @@ router.get("/", authController.test);
 router.post("/register", authController.registerUser);       // basic user
 router.post("/login", authController.loginUser);             // login
 router.post("/register-patient", authController.registerPatient); // patient-only
-
 module.exports = router;

@@ -41,17 +41,17 @@ class CreateEmployeeForm extends React.Component {
   }
 
   fetchData = async () => {
-    try {
-      const clinicsRes = await axios.get('http://localhost:5000/api/clinics');
-      const departmentsRes = await axios.get('http://localhost:5000/api/departments');
+    // try {
+    //   const clinicsRes = await axios.get('http://localhost:5000/api/clinics');
+    //   const departmentsRes = await axios.get('http://localhost:5000/api/departments');
       
-      this.setState({
-        clinics: clinicsRes.data,
-        departments: departmentsRes.data
-      });
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
+    //   this.setState({
+    //     clinics: clinicsRes.data,
+    //     departments: departmentsRes.data
+    //   });
+    // } catch (error) {
+    //   console.error('Error fetching data:', error);
+    // }
   };
 
   validateField = (name, value) => {
@@ -221,11 +221,11 @@ class CreateEmployeeForm extends React.Component {
     
     try {
       const { employeeData } = this.state;
-      const addressRes = await axios.post('http://localhost:5000/api/addresses', employeeData.address);
-      const addressId = addressRes.data.address_id;
+      //const addressRes = await axios.post('http://localhost:5000/api/addresses', employeeData.address);
+      //const addressId = addressRes.data.address_id;
       
       const employeeRes = await axios.post(
-        'http://localhost:5000/api/employees',
+        'http://localhost:5000/api/admin/create-employee',
         { ...employeeData, address_id: addressId }
       );
       
@@ -411,9 +411,9 @@ class CreateEmployeeForm extends React.Component {
               className={errors.sex ? 'input-error' : ''}
             >
               <option value="">-- Select Gender --</option>
-              <option value="1">Male</option>
-              <option value="2">Female</option>
-              <option value="3">Other</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
             </select>
             {errors.sex && <div className="error-message">{errors.sex}</div>}
           </div>

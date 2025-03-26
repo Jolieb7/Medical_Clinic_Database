@@ -6,6 +6,7 @@ const adminController = require('../controllers/adminController');
 router.get('/employees', adminController.getAllEmployees);
 
 // add new employee
-router.post('/employees', adminController.createEmployee);
+router.post("/create-employee", adminController.createEmployee); // admin route
+
 
 module.exports = router;

@@ -50,7 +50,7 @@ const Employee_Form = () => {
 
       // Step 2: Add the employee with the returned address_id
       const employeeRes = await axios.post(
-        'http://localhost:5000/api/employees',
+        'http://localhost:5000/api/create-employee',
         { ...employeeData, address_id: addressId },
         { withCredentials: true }
       );
