@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
 import React from 'react';
-import{ Routes, Route, Navigate } from 'react-router-dom';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Dashboard from './pages/dashboard';
-import Admin_dashboard from './pages/Admin_dashboard';
-import PatientPortalApp from './pages/PatientPortal/PatientPortalApp';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './components/Main/Home';
+import PatientLogin from './components/Auth/PatientLogin';
+import PatientRegister from './components/Auth/PatientRegister';
+import EmployeeLogin from './components/Auth/EmployeeLogin';
+import AdminDashboard from './components/AdminDashboard/AdminDashboard';
+
+
 
 function App() {
   return (
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />   {/* Redirect to login */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/admin_dashboard" element={<Admin_dashboard />} />
-        <Route path="/patient_portal" element={<PatientPortalApp />} /> {/* Add a new route for the Patient Portal */}
-        {/* Add more routes as needed */}
-      </Routes>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<PatientLogin />} />
+          <Route path="/register" element={<PatientRegister />} />
+          <Route path="/login/employee" element={<EmployeeLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
+        </Routes>
+      </div>
+    </Router>
   );
 }
- 
+
 export default App;
