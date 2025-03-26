@@ -6,7 +6,7 @@ import bgImage from '../../assets/Home.png';
 import CreateEmployeeForm from './CreateEmployeeForm';
 import AdminProfile from './AdminProfile';
 import EmployeeTable from './EmployeeTable';
-
+ 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('profile');
 
