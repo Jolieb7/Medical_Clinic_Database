@@ -32,7 +32,23 @@ exports.getAllEmployees = (req, res) => {
     res.status(200).json(result);
   });
 };
+// get employee by clinic
+exports.getEmployeesByClinic = (req, res) => {
+  const db = req.app.get("db");
+  const { clinic_id } = req.query;
 
+  db.query(
+    "SELECT employee_id, first_name, last_name FROM EMPLOYEES WHERE clinic_id = ?",
+    [clinic_id],
+    (err, results) => {
+      if (err) {
+        console.error("Error fetching employees by clinic:", err);
+        return res.status(500).json({ error: "Database error" });
+      }
+      res.status(200).json(results);
+    }
+  );
+};
 // Add new employee
 exports.createEmployee = (req, res) => {
   const db = req.app.get("db");
@@ -137,5 +153,74 @@ db.query(doctorQuery, [employeeId, clinic_id, department_id, specialization, lic
         return res.status(200).json({ message: "Employee created successfully!" });
       }
     });
+  });
+};
+// View schedule by employee ID
+exports.getSchedulesByEmployeeId = (req, res) => {
+  const db = req.app.get("db");
+  const { id } = req.params;
+  db.query(
+    "SELECT * FROM SCHEDULES WHERE employee_id = ?",
+    [id],
+    (err, results) => {
+      if (err) {
+        console.error("Error fetching schedule:", err);
+        return res.status(500).json({ error: "Database error" });
+      }
+      if (results.length === 0) {
+        return res.status(404).json({ message: "No schedule found for this employee" });
+      }
+      res.status(200).json(results);
+    }
+  );
+};
+
+// Add schedule for an employee
+exports.createSchedule = (req, res) => {
+  const db = req.app.get("db");
+  const { employee_id, clinic_id, day_of_week, start_time, end_time } = req.body;
+
+  const insertScheduleQuery = `
+    INSERT INTO SCHEDULES (employee_id, clinic_id, day_of_week, start_time, end_time)
+    VALUES (?, ?, ?, ?, ?)
+  `;
+
+  db.query(insertScheduleQuery, [employee_id, clinic_id, day_of_week, start_time, end_time], (err, result) => {
+    if (err) {
+      console.error("Schedule insert error:", err);
+      return res.status(500).json({ error: "Failed to create schedule" });
+    }
+    res.status(200).json({ message: "Schedule added successfully!" });
+  });
+};
+
+//update schedule
+exports.updateSchedule = (req, res) => {
+  const db = req.app.get("db");
+  const scheduleId = req.params.schedule_id;
+
+  const {
+    employee_id,
+    clinic_id,
+    start_time,
+    end_time,
+    day_of_week
+  } = req.body;
+
+  const query = `
+    UPDATE SCHEDULES
+    SET employee_id = ?, clinic_id = ?, start_time = ?, end_time = ?, day_of_week = ?
+    WHERE schedule_id = ?
+  `;
+
+  db.query(query, [employee_id, clinic_id, start_time, end_time, day_of_week, scheduleId], (err, result) => {
+    if (err) {
+      console.error("Schedule update error:", err);
+      return res.status(500).json({ error: "Failed to update schedule" });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Schedule not found" });
+    }
+    res.status(200).json({ message: "Schedule updated successfully!" });
   });
 };

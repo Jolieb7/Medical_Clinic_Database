@@ -6,7 +6,7 @@ import bgImage from '../../assets/Home.png';
 import CreateEmployeeForm from './CreateEmployeeForm';
 import AdminProfile from './AdminProfile';
 import EmployeeTable from './EmployeeTable';
- 
+import ManageSchedules from './ManageSchedules';
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('profile');
 
@@ -33,7 +33,8 @@ const AdminDashboard = () => {
         </div>
         <ul className="nav-links">
         
-          <li><button onClick={handleLogout} className="logout-btn" title="Logout">{/* <FaSignOutAlt /> */}</button></li>
+        <li>
+  <button onClick={handleLogout} className="logout-btn">Logout</button> </li>
         </ul>
       </nav>
 
@@ -42,12 +43,18 @@ const AdminDashboard = () => {
           <button onClick={() => setActiveTab('profile')} className={activeTab === 'profile' ? 'active' : ''}>My Profile</button>
           <button onClick={() => setActiveTab('create')} className={activeTab === 'create' ? 'active' : ''}>Create Employee</button>
           <button onClick={() => setActiveTab('view')} className={activeTab === 'view' ? 'active' : ''}>View Employees</button>
+          <button onClick={() => setActiveTab('schedules')} className={activeTab === 'schedules' ? 'active' : ''}>
+  Manage Schedules
+</button>
+
         </div>
 
         <div className="admin-tab-content">
           {activeTab === 'profile' && <AdminProfile />}
           {activeTab === 'create' && <CreateEmployeeForm />}
           {activeTab === 'view' && <EmployeeTable />}
+          {activeTab === 'schedules' && <ManageSchedules />}
+
         </div>
       </div>
     </div>
