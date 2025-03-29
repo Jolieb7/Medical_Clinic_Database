@@ -1,0 +1,124 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .home {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: rgba(0, 64, 128, 0.8);
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo img {
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .logo h1 {
+    font-size: 1.5rem;
+    color: #fff;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-links li a:hover {
+    color: #90caf9;
+  }
+  
+  .main-section {
+    text-align: center;
+    margin-top: 100px;
+  }
+  
+  .main-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .main-section p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .main-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 60vh;
+    padding: 2rem;
+  }
+  
+  .main-section .overlay {
+    background-color: rgba(4, 54, 111, 0.5); /* dark transparent overlay */
+    padding: 2rem;
+    border-radius: 12px;
+    color: white;
+    max-width: 600px;
+  }
+  .cta-button {
+    background-color: #2196f3;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cta-button:hover {
+    background-color: #1976d2;
+  }
+  
+  .footer {
+    background-color: rgba(0, 64, 128, 0.9);
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .footer h3 {
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+  
+  .locations {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .location {
+    color: #e3f2fd;
+    font-size: 0.95rem;
+  }
+  
