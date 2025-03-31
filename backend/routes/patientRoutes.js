@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const patientController = require("../controllers/patientController");
-router.post("/dev-create", patientController.createDummyPatient);
+
 
 // Get patient profile
 router.get("/profile/:id", patientController.getProfile);
@@ -14,6 +14,7 @@ router.get("/insurance/:id", patientController.getInsurance);
 
 // Update insurance info
 router.put("/insurance/:id", patientController.updateInsurance);
+router.delete("/insurance/:id", patientController.deleteInsurance);
 
 // Get patient bills
 router.get("/bills/:id", patientController.getBills);

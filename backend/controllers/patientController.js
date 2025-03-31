@@ -31,25 +31,100 @@ const db = require("../config/db");
 // 1. Get patient profile
 exports.getProfile = (req, res) => {
   const { id } = req.params;
-  db.query("SELECT * FROM PATIENTS WHERE patient_id = ?", [id], (err, result) => {
+  const sql = `
+    SELECT p.*, a.*, ec.contact_first_name, ec.contact_last_name, ec.relationship, ec.phone
+    FROM PATIENTS p
+    JOIN ADDRESS a ON p.address_id = a.address_id
+    LEFT JOIN EMERGENCY_CONTACT ec ON p.patient_id = ec.patient_id
+    WHERE p.patient_id = ?
+  `;
+  db.query(sql, [id], (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(result[0]);
   });
 };
 
+
 // 2. Update patient profile
 exports.updateProfile = (req, res) => {
+  const {
+    first_name, last_name, dob, phone_num, email, sex,
+    street_num, street_name, postal_code, city, state,
+    emergency_first_name, emergency_last_name, emergency_relationship, emergency_phone
+  } = req.body;
   const { id } = req.params;
-  const { first_name, last_name, dob, address_id, phone_num, email, sex } = req.body;
-  db.query(
-    `UPDATE PATIENTS SET first_name = ?, last_name = ?, dob = ?, address_id = ?, phone_num = ?, email = ?, sex = ? WHERE patient_id = ?`,
-    [first_name, last_name, dob, address_id, phone_num, email, sex, id],
-    (err, result) => {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ message: "Profile updated successfully" });
+
+  // Step 1: Get address_id of the patient
+  db.query("SELECT address_id FROM PATIENTS WHERE patient_id = ?", [id], (err, result) => {
+    if (err || result.length === 0) {
+      return res.status(500).json({ error: "Failed to get address ID", details: err });
     }
-  );
+
+    const address_id = result[0].address_id;
+
+    // Step 2: Update PATIENTS table
+    db.query(
+      `UPDATE PATIENTS 
+       SET first_name = ?, last_name = ?, dob = ?, phone_num = ?, email = ?, sex = ? 
+       WHERE patient_id = ?`,
+      [first_name, last_name, dob, phone_num, email, sex, id],
+      (err) => {
+        if (err) {
+          return res.status(500).json({ error: "Failed to update patient", details: err });
+        }
+
+        // Step 3: Update ADDRESS table
+        db.query(
+          `UPDATE ADDRESS 
+           SET street_num = ?, street_name = ?, postal_code = ?, city = ?, state = ? 
+           WHERE address_id = ?`,
+          [street_num, street_name, postal_code, city, state, address_id],
+          (err) => {
+            if (err) {
+              return res.status(500).json({ error: "Failed to update address", details: err });
+            }
+
+            // Step 4: Conditionally update EMERGENCY_CONTACT
+            if (
+              emergency_first_name &&
+              emergency_last_name &&
+              emergency_relationship &&
+              emergency_phone
+            ) {
+              const upsertEC = `
+                INSERT INTO EMERGENCY_CONTACT 
+                  (patient_id, contact_first_name, contact_last_name, relationship, phone)
+                VALUES (?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE 
+                  contact_first_name = ?, contact_last_name = ?, relationship = ?, phone = ?
+              `;
+              db.query(
+                upsertEC,
+                [
+                  id, emergency_first_name, emergency_last_name, emergency_relationship, emergency_phone,
+                  emergency_first_name, emergency_last_name, emergency_relationship, emergency_phone
+                ],
+                (err) => {
+                  if (err) {
+                    return res.status(500).json({ error: "Failed to update emergency contact", details: err });
+                  }
+
+                  return res.json({ message: "Profile updated successfully" });
+                }
+              );
+            } else {
+              // No emergency contact info provided, just complete update
+              return res.json({ message: "Profile updated successfully (no emergency contact changes)" });
+            }
+          }
+        );
+      }
+    );
+  });
 };
+
+
+
 
 // 3. Get insurance
 exports.getInsurance = (req, res) => {
@@ -62,17 +137,40 @@ exports.getInsurance = (req, res) => {
 
 // 4. Update insurance
 exports.updateInsurance = (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // this is patient_id, not insurance_id
   const { provider_name, policy_number, covrage_details, effective_from, effective_to } = req.body;
+
+  const upsertInsurance = `
+    INSERT INTO INSURANCE_PLAN 
+    (patient_id, provider_name, policy_number, covrage_details, effective_from, effective_to)
+    VALUES (?, ?, ?, ?, ?, ?)
+    ON DUPLICATE KEY UPDATE 
+    provider_name = ?, policy_number = ?, covrage_details = ?, effective_from = ?, effective_to = ?
+  `;
+
   db.query(
-    `UPDATE INSURANCE_PLAN SET provider_name = ?, policy_number = ?, covrage_details = ?, effective_from = ?, effective_to = ? WHERE insurance_id = ?`,
-    [provider_name, policy_number, covrage_details, effective_from, effective_to, id],
-    (err, result) => {
+    upsertInsurance,
+    [
+      id, provider_name, policy_number, covrage_details, effective_from, effective_to,
+      provider_name, policy_number, covrage_details, effective_from, effective_to
+    ],
+    (err) => {
       if (err) return res.status(500).json({ error: err.message });
       res.json({ message: "Insurance updated successfully" });
     }
   );
 };
+
+//delete insurance
+exports.deleteInsurance = (req, res) => {
+  const { id } = req.params; // patient_id
+  const sql = "DELETE FROM INSURANCE_PLAN WHERE patient_id = ?";
+  db.query(sql, [id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: "Insurance record deleted successfully" });
+  });
+};
+
 
 // 5. Get bills
 exports.getBills = (req, res) => {
@@ -162,77 +260,3 @@ exports.getMedicalRecords = (req, res) => {
   );
 };
 
-exports.createDummyPatient = (req, res) => {
-  const db = req.app.get("db");
-
-  // 1. ADDRESS (columns: address_id, street_num, street_name, postal_code, city, state)
-  const address = {
-    address_id: 1,
-    street_num: "123",
-    street_name: "Demo Street",
-    postal_code: "12345",
-    city: "Testville",
-    state: "TS"
-  };
-
-  // 2. PATIENTS (columns: patient_id, first_name, last_name, dob, address_id, phone_num, email, sex)
-  const patient = {
-    patient_id: 999,
-    first_name: "Demo",
-    last_name: "User",
-    dob: "1999-01-01",
-    address_id: address.address_id,
-    phone_num: "5551234567",
-    email: "demo@patient.com",
-    sex: "female"
-  };
-
-  // 3. INSURANCE_PLAN (columns: insurance_id, patient_id, provider_name, policy_number, covrage_details, effective_from, effective_to)
-  const insurance = {
-    insurance_id: 999,
-    patient_id: patient.patient_id,
-    provider_name: "TestCare",
-    policy_number: "POLICY999",
-    covrage_details: "Full Coverage",
-    effective_from: "2024-01-01",
-    effective_to: "2025-01-01"
-  };
-
-  // 4. BILLING (columns: billing_id, patient_id, total_amount, payment_status)
-  // const billing = {
-  //   billing_id: 999,
-  //   patient_id: patient.patient_id,
-  //   total_amount: 100.00,
-  //   payment_status: "Unpaid"
-  // };
-
-  // SQL insert statements
-  const insertAddress = `INSERT INTO ADDRESS SET ?`;
-  const insertPatient = `INSERT INTO PATIENTS SET ?`;
-  const insertInsurance = `INSERT INTO INSURANCE_PLAN SET ?`;
-  //const insertBilling = `INSERT INTO BILLING SET ?`;
-
-  // Execute the inserts
-  db.query(insertAddress, address, (err) => {
-    if (err && err.errno !== 1062) {
-      return res.status(500).json({ error: "Address insert failed", details: err });
-    }
-
-    db.query(insertPatient, patient, (err) => {
-      if (err) return res.status(500).json({ error: "Patient insert failed", details: err });
-
-      db.query(insertInsurance, insurance, (err) => {
-        if (err) return res.status(500).json({ error: "Insurance insert failed", details: err });
-
-        // db.query(insertBilling, billing, (err) => {
-        //   if (err) return res.status(500).json({ error: "Billing insert failed", details: err });
-
-          res.json({
-            message: "Dummy patient, insurance, address, and bill created successfully",
-            patient_id: patient.patient_id
-          });
-        //});
-      });
-    });
-  });
-};

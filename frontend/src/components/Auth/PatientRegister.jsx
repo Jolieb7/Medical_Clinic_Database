@@ -69,7 +69,6 @@ const PatientRegister = () => {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formErrors = validate();
@@ -77,25 +76,34 @@ const PatientRegister = () => {
       setErrors(formErrors);
       return;
     }
-
+  
     try {
-      const response = await fetch('/api/auth/register-patient', {
+      const response = await fetch('http://localhost:5000/api/register-patient', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
       });
-
+  
       const data = await response.json();
       if (response.ok) {
         alert('Account created successfully! Please login.');
         navigate('/login');
       } else {
-        alert(data.error || 'Registration failed.');
+        if (data.error && data.error.includes("Username already exists")) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            username: "This username is already taken. Please choose another."
+          }));
+        } else {
+          alert(data.error || 'Registration failed.');
+        }
       }
     } catch (err) {
       alert('Server error. Please try again later.');
     }
   };
+
+
 
   return (
     <div

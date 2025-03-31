@@ -28,12 +28,7 @@ const PatientLogin = () => {
       localStorage.setItem('user', JSON.stringify(user));
 
       // Redirect based on role
-      if (user.role === 'Patient') navigate('/components/dashboard');
-      else if (user.role === 'Admin') navigate('/admin/dashboard');
-      else if (user.role === 'Doctor') navigate('/doctor/dashboard');
-      else if (user.role === 'Nurse') navigate('/nurse/dashboard');
-      else if (user.role === 'Staff') navigate('/staff/dashboard');
-      else navigate('/');
+      if (user.role === 'Patient') navigate('/patient/dashboard');
 
     } catch (err) {
       setErrorMsg(err.response?.data?.error || 'Login failed');

@@ -128,14 +128,22 @@ exports.registerPatient = (req, res) => {
   
             const patient_id = patientResult.insertId;
   
-            // 3. Insert into USER_CREDENTIALS
-            const credentialsQuery =
-              "INSERT INTO USER_CREDENTIALS (username, password, role, patient_id) VALUES (?, ?, 'Patient', ?)";
-            db.query(credentialsQuery, [username, password, patient_id], (err) => {
-              if (err)
-                return db.rollback(() =>
-                  res.status(500).json({ error: "Credentials insert failed", details: err })
-                );
+            /// 3. Insert into USER_CREDENTIALS
+const credentialsQuery =
+"INSERT INTO USER_CREDENTIALS (username, password, role) VALUES (?, ?, 'Patient')";
+db.query(credentialsQuery, [username, password], (err) => {
+if (err) {
+  //Catch duplicate username
+  if (err.code === 'ER_DUP_ENTRY') {
+    return db.rollback(() =>
+      res.status(400).json({ error: "Username already exists. Please choose another." })
+    );
+  }
+  //General insert failure
+  return db.rollback(() =>
+    res.status(500).json({ error: "Credentials insert failed", details: err })
+  );
+}
   
               // 4. Insert into EMERGENCY_CONTACT
               const emergencyQuery = `
